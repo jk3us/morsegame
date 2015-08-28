@@ -161,10 +161,6 @@ MorseGame.prototype.activateLetter = function(letter) {
 	this.letters[letter_index].active = true;
 	$("#graph").highcharts().series[0].data[letter_index].graphic.attr("fill", "blue");
 	$("#graph").highcharts().series[0].data[letter_index].update({color: "blue"});
-	//var letter_row = $(".letter").filter("[data-letter='"+letter+"']");
-	//letter_row.addClass("active");
-	//letter_row.find("td").text(100);
-	//letter_row.data("streak", 0);
 }
 
 MorseGame.prototype.setUpBoard = function() {
