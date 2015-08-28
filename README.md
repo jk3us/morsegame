@@ -4,6 +4,8 @@ This is a simple game to teach Morse Code.  It just sends one letter at a time, 
 
 Loosely based on [morse.exe](http://c2.com/~ward/morse/morse.html), a DOS-based game that helped me pass my Tech Plus ham radio license exam back when morse code was required.
 
+[Play Now](http://jk3.us/morsegame/)
+
 ## Uses
 
 * [Highcharts](http://www.highcharts.com/)
