@@ -2,6 +2,8 @@
 
 This is a simple game to teach Morse Code.  It just sends one letter at a time, get it right and that bar goes down, get it wrong and it goes back up.  Your goal is to drain all of the bars.
 
+Loosely based on [morse.exe](http://c2.com/~ward/morse/morse.html), a DOS-based game that helped me pass my Tech Plus ham radio license exam back when morse code was required.
+
 ## Uses
 
 * [Highcharts](http://www.highcharts.com/)
