@@ -10,3 +10,9 @@ Loosely based on [morse.exe](http://c2.com/~ward/morse/morse.html), a DOS-based 
 * [This gist](https://gist.github.com/eholk/0115691987090973cefe) (with modifications, js file included here)
 * [keymaster](https://github.com/madrobby/keymaster)
 * [Bootstrap](http://getbootstrap.com/)
+
+## TODO
+
+* Properly handle finishing the game
+* Options for speed, time limit, and feedback
+* Mobile-friendly version?
