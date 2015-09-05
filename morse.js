@@ -10,13 +10,17 @@ function MorseNode(ac, rate) {
 
     if(rate == undefined)
         rate = 20;
-    this._dot = 1.2 / rate; // formula from Wikipedia.
+	this.setRate(rate);
 
     this._oscillator.start(0);
 }
 
 MorseNode.prototype.connect = function(target) {
     return this._gain.connect(target);
+}
+
+MorseNode.prototype.setRate = function(rate) {
+    this._dot = 1.2 / rate; // formula from Wikipedia.
 }
 
 MorseNode.prototype.MORSE = {

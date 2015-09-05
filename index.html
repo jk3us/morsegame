@@ -16,14 +16,69 @@
 		<a href="https://github.com/jk3us/morsegame/" target="_blank"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
 		<div class="container">
 		<div class="page-header">
+			<button type="button" class="pull-right btn btn-primary btn-lg" data-toggle="modal" data-target="#options-modal">Pause / Options</button>
 			<h1>Morse Game <small>beta</small></h1>
 		</div>
 		</div>
 
 		<div class="container">
-		<p id="message">Press space to begin</p>
 		<div id="graph">
 		</div>
+		</div>
+
+		<div id="begin-modal" class="modal fade">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Ready?</h4>
+					</div>
+					<div class="modal-body ">
+						<h5>Instructions</h5>
+						<ol>
+							<li>When you hear a letter, press it.</li>
+							<li>Press Space at any time to pause the game, or click the Pause / Option button.</li>
+						<ol>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-dismiss="modal">Go!</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="options-modal" class="modal fade">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">Game Paused</h4>
+					</div>
+					<div class="modal-body form-horizontal">
+						<div class="form-group">
+							<label for="input-wpm" class="col-sm-4 control-label"><abbr title="Words per minute">WPM</abbr></label>
+							<div class="col-sm-8">
+								<div class="btn-group" role="group" data-toggle="buttons" aria-label="...">
+									<label class="btn btn-default"><input type="radio" name="input-wpm" value="5">5</button></label>
+									<label class="btn btn-default"><input type="radio" name="input-wpm" value="13">13</button></label>
+									<label class="btn btn-default"><input type="radio" name="input-wpm" value="20">20</button></label>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="input-limit" class="col-sm-4 control-label">Time Limit (per guess)</label>
+							<div class="col-sm-8">
+								<div class="btn-group" role="group" data-toggle="buttons" aria-label="...">
+									<label class="btn btn-default"><input type="radio" name="input-wait" value="2">2 seconds</button></label>
+									<label class="btn btn-default"><input type="radio" name="input-wait" value="5">5 seconds</button></label>
+									<label class="btn btn-default"><input type="radio" name="input-wait" value="0">No Limit</button></label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" id="save-options-button" data-dismiss="modal">Continue</button>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
