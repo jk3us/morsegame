@@ -37,7 +37,11 @@ function MorseGame() {
 	this.morse = new MorseNode(this.ac, this.wpm);
 	this.morse.connect(this.ac.destination);
 
-	this.setUpBoard();
+	this.setupBoard();
+	this.activateLetter("Q");
+	this.activateLetter("Z");
+	this.next_letter = "Q"; // always start with Q
+	//this.showBoard();
 	this.next_letter = $(".letter.active").first().data("letter");
 
 	key("space", this.togglePause.bind(this));
@@ -93,12 +97,11 @@ MorseGame.prototype.letterPressed = function(letter) {
 	} else {
 		this.letters[letter_index].score += 7; // Increment score
 		if (this.letters[letter_index].score > 100) {
-			this.letters[letter_index].score = 100;
 		}
 		this.letters[letter_index].streak = 0; // Reset streak
 		this.streak = 0;
 	}
-	$("#graph").highcharts().series[0].data[letter_index].update({y:this.letters[letter_index].score});
+
 	if (this.streak > 0 && this.streak % 10 == 0) {
 		this.activateLetter();
 		//this.next_letter = $(".letter").not(".active").first().data("letter")
@@ -107,9 +110,7 @@ MorseGame.prototype.letterPressed = function(letter) {
 		return;
 	}
 	// update_board();
-	//$('#graph').highcharts(this.chartOptions);
-	$('#graph').highcharts().series[0].isDirty = true;
-	$('#graph').highcharts().redraw();
+	this.showBoard();
 	this.next_letter=null;
 	this.letter_timeout = setTimeout(this.doNextLetter.bind(this), 500);
 }
@@ -171,50 +172,64 @@ MorseGame.prototype.activateLetter = function(letter) {
 	var letter_index = this.getLetterIndex(letter);
 	this.next_letter = letter;
 	this.letters[letter_index].active = true;
-	$("#graph").highcharts().series[0].data[letter_index].graphic.attr("fill", "blue");
-	$("#graph").highcharts().series[0].data[letter_index].update({color: "blue"});
+	this.letters[letter_index].score = 100;
+	console.log(this.letters[letter_index]);
+	this.showBoard();
 }
 
-MorseGame.prototype.setUpBoard = function() {
+MorseGame.prototype.setupBoard = function() {
+	this.svg = d3.select("#graph")
+		.append("svg")
+		.attr("width", d3.select("#graph").node().offsetWidth)
+		.attr("height", 400);
 
-	data = [];
-	categories = [];
-
-	for (i = 0; i < this.letters.length; i++) {
-		categories[i] = this.letters[i].letter;
-		data[i] = this.letters[i].score;
-	}
-
-	this.chartOptions = {
-		series:[{
-				name: "Letter",
-				data: data,
-				color: "#cecece"
-		}],
-		title: {text: null},
-		exporting: {enabled: false},
-		credits: {enabled: false},
-		tooltip: {enabled: false},
-		chart: {
-			type: 'column',
-		},
-		xAxis: {
-			categories: categories,
-			tickLength: 0,
-			minorTickLength: 0
-		},
-		yAxis: {
-			allowDecimals: false,
-			max: 100,
-			labels: { enabled: false },
-			title: {text: null}
-		},
-		legend: { enabled: false }
+	var margin = {top:40, right: 0, bottom: 30, left: 0};
+	this.graph = {
+		width: +this.svg.attr("width") - margin.left - margin.right,
+		height: +this.svg.attr("height") - margin.top - margin.bottom
 	};
-    this.chart = $('#graph').highcharts(this.chartOptions);
-    this.activateLetter("Q");
-    this.activateLetter("Z");
-	this.next_letter = "Q"; // always start with Q
+
+	this.graph.x = d3.scaleBand()
+		.rangeRound([0, this.graph.width])
+		.padding(0.4)
+		.domain(this.letters.map(function(i){return i.letter})) ;
+	this.graph.y = d3.scaleLinear()
+		.rangeRound([this.graph.height, 0])
+		.domain([0,1]);
+
+	this.graph.g = this.svg.append("g")
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+
+	this.graph.g.append("g")
+		.attr("class", "axis axis--x")
+		.attr("transform", "translate(0," + this.graph.height + ")")
+		.call(d3.axisBottom(this.graph.x).tickSize(0));
+
+	this.graph.g.append("g")
+		.attr("class", "axis axis--y")
+		.call(d3.axisLeft(this.graph.y).ticks(4, "%").tickSize(-this.graph.width).tickFormat(""));
+}
+
+MorseGame.prototype.showBoard = function() {
+
+	var t = d3.transition()
+	    .duration(1000)
+	    .ease(d3.easePolyOut);
+	bars = this.graph.g.selectAll("rect")
+		.data(this.letters);
+
+	bars.enter()
+		.append("rect")
+		.attr("x", function(d) { return this.graph.x(d.letter); }.bind(this))
+		.attr("data-letter", function(d) { return d.letter } )
+		.attr("width", this.graph.x.bandwidth())
+		.attr("height", 0)
+		.attr("y", this.graph.y(0));
+	bars
+		.attr("class", function(d) { return d.active? "active" : "inactive"} )
+		.transition(t)
+		.attr("y", function(d) { return this.graph.y(d.score / 100); }.bind(this))
+		.attr("height", function(d) { return this.graph.height - this.graph.y(d.score / 100); }.bind(this));
 }
 
 MorseGame.prototype.win = function() {
@@ -230,14 +245,15 @@ $(function() {
 	game = new MorseGame();
 
 	$("#begin-modal").modal({keyboard: false,backdrop:"static"}).modal("show");
-	$("#begin-modal").on("hide.bs.modal", function() {
+	$("#begin-modal").on("hidden.bs.modal", function() {
 		console.log("closing modal");
 		if (game.paused) {
 			game.togglePause();
 		}
 	});
 
-	$("#options-modal").on("show.bs.modal", function() {
+	$("#options-modal").on("shown.bs.modal", function() {
+		console.log("opening modal");
 		if (!game.paused) {
 			game.togglePause();
 		}

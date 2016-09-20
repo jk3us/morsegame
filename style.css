@@ -1,0 +1,26 @@
+rect {
+	stroke: white;
+	fill: #cecece;
+}
+rect.active {
+	fill: blue;
+}
+rect:hover {
+	fill: rgb(231,231,231);
+}
+rect.active:hover {
+	fill: darkblue;
+	/* for when we have click/touch events */
+	/*cursor: pointer;*/
+}
+.tick text {
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 16px;
+	fill: #3c3c3c;
+}
+.axis--y > .domain {
+	display: none;
+}
+.axis--y > .tick line {
+	stroke: #eee !important;
+}

@@ -8,10 +8,10 @@ Loosely based on [morse.exe](http://c2.com/~ward/morse/morse.html), a DOS-based 
 
 ## Uses
 
-* [Highcharts](http://www.highcharts.com/)
+* [d3](https://d3js.org/)
 * [This gist](https://gist.github.com/eholk/0115691987090973cefe) (with modifications, js file included here)
 * [keymaster](https://github.com/madrobby/keymaster)
-* [Bootstrap](http://getbootstrap.com/)
+* [Bootstrap](https://getbootstrap.com/)
 
 ## TODO
 
