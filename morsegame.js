@@ -97,7 +97,7 @@ MorseGame.prototype.letterPressed = function(letter) {
 	} else {
 		this.letters[letter_index].score += 7; // Increment score
 		if (this.letters[letter_index].score > 100) {
-			this.letters[letter_index].score = 100; // Increment score
+			this.letters[letter_index].score = 100; // Limit score to 100
 		}
 		this.letters[letter_index].streak = 0; // Reset streak
 		this.streak = 0;
