@@ -84,6 +84,7 @@ MorseNode.prototype.playChar = function(t, c) {
 
 MorseNode.prototype.playString = function(t, w) {
     w = w.toUpperCase();
+    t += this._dot; // add some silence to prevent starting click
     for(var i = 0; i < w.length; i++) {
         if(w[i] == ' ') {
             t += 3 * this._dot; // 3 dots from before, three here, and
