@@ -69,12 +69,12 @@ MorseNode.prototype.playChar = function(t, c) {
         case '.':
             this._gain.gain.setTargetAtTime(1, t, 0.005);
             t += this._dot;
-            this._gain.gain.setTargetAtTime(0, t, 0.001);
+            this._gain.gain.setTargetAtTime(0, t, 0.005);
             break;
         case '-':
             this._gain.gain.setTargetAtTime(1, t, 0.005);
             t += 3 * this._dot;
-            this._gain.gain.setTargetAtTime(0, t, 0.001);
+            this._gain.gain.setTargetAtTime(0, t, 0.005);
             break;
         }
         t += this._dot;
